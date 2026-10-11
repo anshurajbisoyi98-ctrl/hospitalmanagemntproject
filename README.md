@@ -43,7 +43,17 @@ npm test
 npm run build
 ```
 
-Foundation tests need no live database and verify configuration failures and safe API errors. They do not establish Atlas integration or feature correctness.
+The test suite includes isolated backend and frontend tests. MongoDB integration tests require a separate test database; never point those destructive fixtures at a database containing real data.
+
+### Demo catalog data
+
+The repository includes eight clearly labeled sample books. To add missing demo books to the MongoDB database configured in `backend/.env`, run this explicit, repeat-safe seed command:
+
+```sh
+SEED_DEMO_DATA=true npm run seed:demo
+```
+
+The seed matches records by its demo ISBNs and inserts only missing entries; it does not update or delete existing books. It is never run automatically when the server starts.
 
 ## Coding conventions
 
