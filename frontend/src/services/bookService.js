@@ -17,11 +17,14 @@ const getStoredToken = () => {
  * @param {{ q?: string, category?: string, signal?: AbortSignal, token?: string }} [options]
  * @returns {Promise<any>}
  */
-const getBooks = async ({ q, category, signal, token } = {}) => {
+const getBooks = async ({ q, category, signal, token, ...options } = {}) => {
     const qs = buildSearchQueryString({ q, category });
-    const res = await request(`/books${qs}`, { signal, token });
-const getBooks = async ({ signal, ...options } = {}) => {
-    const res = await request("/books", { signal, ...options });
+    const resolvedToken = token || getStoredToken();
+    const res = await request(`/books${qs}`, {
+        signal,
+        ...options,
+        ...(resolvedToken ? { token: resolvedToken } : {}),
+    });
     return res?.data ?? res;
 };
 

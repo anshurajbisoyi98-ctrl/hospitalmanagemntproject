@@ -90,6 +90,9 @@ const App = () => {
                             <ProtectedRoute>
                                 <MyLoans />
                             </ProtectedRoute>
+                        }
+                    />
+                    <Route
                         path="/admin/books/new"
                         element={
                             <AdminRoute>
