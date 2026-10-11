@@ -31,7 +31,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "npm"
 
       - name: Install dependencies
@@ -40,7 +40,8 @@ jobs:
       - name: Run test suite
         run: npm test
         env:
-          TEST_MONGO_URI: "mongodb://127.0.0.1:27017/library_ci_test?replicaSet=rs0&directConnection=true"
+          TEST_MONGO_URI: "mongodb://127.0.0.1:27017/library_borrowing_test?replicaSet=rs0&directConnection=true"
+          API_TEST_MONGO_URI: "mongodb://127.0.0.1:27017/library_api_test?replicaSet=rs0&directConnection=true"
           MONGO_URI: "mongodb://127.0.0.1:27017/library_ci_test?replicaSet=rs0&directConnection=true"
           JWT_SECRET: "12345678901234567890123456789012"
           FRONTEND_URL: "http://127.0.0.1:5173"
