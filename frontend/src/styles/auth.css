@@ -8,7 +8,7 @@
     --accent:       #2F4F3E;
     --accent-hover: #243D30;
     --error:        #8C2F24;
-    --radius: 3px;
+    --radius: 6px;
 }
 
 /* ─── Typography ────────────────────────────────────────────────────────────── */
@@ -359,4 +359,39 @@ body {
         padding-right: 1rem;
         min-height: auto;
     }
+}
+
+/* ─── UI polish ─────────────────────────────────────────────────────────── */
+/* Header: lift it off the page and keep it in view while scrolling. */
+.site-header {
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.site-header__logout {
+    transition: background 0.15s var(--ease), border-color 0.15s var(--ease), transform 0.15s var(--ease);
+}
+.site-header__logout:active {
+    transform: translateY(1px);
+}
+
+/* Inputs: smoother focus transition. */
+.auth-form__input {
+    transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+/* Primary submit: subtle depth and a gentle hover lift. */
+.auth-form__submit {
+    box-shadow: var(--shadow-sm);
+    transition: background 0.18s var(--ease), transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.auth-form__submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+.auth-form__submit:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
 }
