@@ -34,3 +34,17 @@ An empty main baseline was created solely to enable PR review in the initially e
 ## Issue #14 integration progress
 
 Added `backend/test/mongo.integration.test.js`. With the configured Atlas `MONGO_URI`, it connects through Mongoose, starts the real Express app, and verifies the healthy `/api/health` response and CORS origin. It performs no database writes and is skipped if no real URI is configured. `npm test` passed all 20 tests (4 backend, 16 frontend), including the live Atlas check. This covers the implemented health/API foundation only; auth, Book/search and borrowing integration cases still require their feature APIs.
+
+
+## Current release verification — 11 October 2026
+
+The historical notes above describe earlier milestones. Current automated verification is recorded below.
+
+- GitHub Actions passed on PR #32's latest code: backend tests, frontend utility tests, Vitest catalog tests, and the Vite production build. Backend integration tests use an isolated MongoDB replica set in CI.
+- GitHub Actions passed on the deployment configuration branch before the submission audit update; CI is running again for the latest PR #33 commit.
+- The latest merged main build repair is PR #31. It is a Copilot-authored fix and is excluded from student contribution counts.
+- No Vercel or Render service has been deployed or checked. No production URL, live CORS result, deployed Atlas result, or fresh browser screenshot is claimed.
+- Existing feature screenshots are in \`docs/screenshots/issue-7\`, \`docs/screenshots/issue-11\`, and \`docs/screenshots/issue-13\`; they are not screenshots of the current deployed release.
+- Roll numbers for the four members remain pending.
+
+Follow \`docs/DEPLOYMENT.md\` to complete hosted checks. Record actual URLs and fresh results here only after running those checks.
