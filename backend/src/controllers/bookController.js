@@ -4,7 +4,33 @@ const Borrowing = require("../models/borrowingModel");
 
 const getBooks = async (req, res, next) => {
     try {
-        const books = await Book.find().sort({ createdAt: -1 });
+        const { q, category } = req.query;
+        const filter = {};
+
+        if (category && typeof category === "string") {
+            const cleanCategory = category.trim();
+            if (cleanCategory) {
+                // Escape regex special characters to treat input as literal text
+                const escapedCategory = cleanCategory.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                filter.category = new RegExp(`^${escapedCategory}$`, "i");
+            }
+        }
+
+        if (q && typeof q === "string") {
+            const cleanQ = q.trim();
+            if (cleanQ) {
+                const escapedQ = cleanQ.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                const regex = new RegExp(escapedQ, "i");
+                filter.$or = [
+                    { title: regex },
+                    { author: regex },
+                    { ISBN: regex },
+                    { category: regex }
+                ];
+            }
+        }
+
+        const books = await Book.find(filter).sort({ createdAt: -1 });
         const data = books.map((b) => b.toSafeObject());
         return res.status(200).json({ data });
     } catch (err) {
