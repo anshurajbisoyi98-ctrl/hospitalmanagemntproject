@@ -1,4 +1,4 @@
-const StatusMessage = ({ type, message, onRetry }) => {
+const StatusMessage = ({ type, message, onRetry, onClear }) => {
     if (type === "loading") {
         return (
             <div className="catalog-status catalog-status--loading" aria-live="polite">
@@ -24,6 +24,11 @@ const StatusMessage = ({ type, message, onRetry }) => {
         return (
             <div className="catalog-status catalog-status--empty">
                 <p className="catalog-status__message">{message || "No books in the catalog yet."}</p>
+                {onClear && (
+                    <button type="button" onClick={onClear} className="catalog-btn catalog-btn--clear-filters">
+                        Clear filters
+                    </button>
+                )}
             </div>
         );
     }

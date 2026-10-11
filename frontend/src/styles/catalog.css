@@ -602,3 +602,133 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Search and Filter Controls (Issue #12) */
+.catalog-search-filter {
+    background-color: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.catalog-search-filter__controls {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.catalog-search-filter__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.catalog-search-filter__field--search {
+    flex: 1 1 320px;
+}
+
+.catalog-search-filter__field--category {
+    flex: 0 1 220px;
+}
+
+.catalog-search-filter__label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+}
+
+.catalog-search-filter__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.catalog-search-filter__input,
+.catalog-search-filter__select {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--ink);
+    background-color: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-sizing: border-box;
+}
+
+.catalog-search-filter__input {
+    padding-right: 4.5rem;
+}
+
+.catalog-search-filter__input::placeholder {
+    color: var(--muted);
+    opacity: 0.85;
+}
+
+.catalog-search-filter__clear-btn {
+    position: absolute;
+    right: 0.4rem;
+    min-height: 34px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.85rem;
+    font-family: inherit;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+
+.catalog-search-filter__clear-btn:hover {
+    color: var(--ink);
+    border-color: var(--muted);
+}
+
+.catalog-search-filter__hint {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.3;
+}
+
+.catalog-page input:focus-visible,
+.catalog-page select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.catalog-btn--clear-filters {
+    margin-top: 0.5rem;
+    background-color: transparent;
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.catalog-btn--clear-filters:hover {
+    background-color: var(--accent);
+    color: #FFFDF8;
+}
+
+/* Dimmed results during background refetch */
+.catalog-grid--dimmed {
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.15s ease-in-out;
+}
+
+/* Screen-reader utility for polite live region */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+

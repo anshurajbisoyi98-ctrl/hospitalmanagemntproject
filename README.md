@@ -120,9 +120,21 @@ Implemented for issue #7. Provides the book list and book detail views with live
 
 ### Endpoints called
 
-- `GET /api/books`: Retrieves the catalog book list.
+- `GET /api/books`: Retrieves the catalog book list. Supports optional search and filter parameters `?q=` (searches title, author, ISBN, category) and `?category=` (filters by category).
 - `GET /api/books/:id`: Retrieves individual book record and copy counts by ID.
 
+## Borrowing and returns
+
+Implemented for issue #13. Provides the administrator loan management interface and user personal loans tracking with live catalog inventory synchronization.
+### Catalog search and filtering (Issue #12)
+
+- Controlled search input with debounced querying (300 ms) and immediate submission on Enter.
+- Category filter dropdown populated dynamically from catalog data and stabilized during active queries.
+- URL search parameters (`q` and `category`) synchronized with React Router as the source of truth for bookmarking and navigation history.
+- Stale response protection via request sequencing and `AbortController`.
+- Query-specific empty states with a "Clear filters" action and error states with a "Retry" button.
+- Accessible live region announcing loading, search counts, and empty states.
+- Frontend test suite runnable via `npm test` (root runs backend tests, node tests, and frontend Vitest component tests) or `npm run test --workspace frontend`.
 ## Book management
 
 Implemented for issue #11. Provides librarian forms for adding, updating, and deleting books with validation and conflict handling.
@@ -131,6 +143,33 @@ Implemented for issue #11. Provides librarian forms for adding, updating, and de
 
 | Path | Access | Description |
 | --- | --- | --- |
+| `/admin/loans` | Admin | Issue loans, list active/returned loans, and return books |
+| `/my-loans` | Authenticated (User & Admin) | View personal borrowing records and due dates |
+
+### Role rules
+
+- **Admin:** May select borrowers and available books to issue new loans, view all system loans, filter by status (All, Active, Overdue, Returned), and mark loans as returned.
+- **User:** May view only their own borrowing records. The User code path never invokes the all-loans endpoint. Unprivileged access to `/admin/loans` displays an access-denied screen.
+- Note: Hiding Admin controls in the UI is for user experience only; the backend strictly enforces role checks and user ownership isolation.
+
+### Error cases
+
+- **400 Bad Request:** Field validation errors mapped under borrower, book, or due date inputs.
+- **403 Forbidden:** Displayed when an unprivileged account attempts an administrative loan operation.
+- **404 Not Found:** Displayed when a book, borrower, or loan record is missing or deleted.
+- **409 Conflict (Unavailable Book):** "No copies of this book are available." Automatically triggers a book catalog refresh to reflect current stock.
+- **409 Conflict (Duplicate Return):** "This loan has already been returned." Automatically triggers a loan list refresh.
+- **401 Unauthorized:** Handled via the central session-expiry redirect flow.
+- **Network / 5xx Server Errors:** Safe, human-friendly fallbacks without leaking server internals.
+
+### Endpoints called
+
+- `POST /api/borrowings`: Issues a new loan with borrower ID, book ID, and due date (Admin).
+- `GET /api/borrowings`: Fetches all loans (Admin) or personal loans (scoped to the authenticated user).
+- `PATCH /api/borrowings/:id/return`: Marks an active loan as returned and increments available copies (Admin).
+- `GET /api/users`: Fetches minimal borrower selection list (Admin).
+- `GET /api/books`: Refetches catalog records following loan issue or return for live stock synchronization.
+
 | `/admin/books/new` | Admin only | Form to create a new book with client validation |
 | `/admin/books/:id/edit` | Admin only | Form to edit metadata and total copies of an existing book |
 

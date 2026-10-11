@@ -1,4 +1,5 @@
 import { request } from "./api.js";
+import { buildSearchQueryString } from "../utils/search.js";
 
 const getStoredToken = () => {
     try {
@@ -30,6 +31,15 @@ const getBooks = async ({ q, category, signal, ...options } = {}) => {
     const path = queryString ? `/books?${queryString}` : "/books";
 
     const res = await request(path, { signal, ...options });
+ * Fetch list of books from the catalog with optional search and category filters.
+ * @param {{ q?: string, category?: string, signal?: AbortSignal, token?: string }} [options]
+ * @returns {Promise<any>}
+ */
+const getBooks = async ({ q, category, signal, token } = {}) => {
+    const qs = buildSearchQueryString({ q, category });
+    const res = await request(`/books${qs}`, { signal, token });
+const getBooks = async ({ signal, ...options } = {}) => {
+    const res = await request("/books", { signal, ...options });
     return res?.data ?? res;
 };
 

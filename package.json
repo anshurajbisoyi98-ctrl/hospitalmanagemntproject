@@ -9,6 +9,8 @@
     "dev:frontend": "npm run dev --workspace frontend",
     "dev:backend": "npm run dev --workspace backend",
     "build": "npm run build --workspace frontend",
+    "test": "npm run test --workspace backend && node --test frontend/src/utils/jwt.test.js frontend/src/utils/books.test.js frontend/src/utils/loans.test.js",
+    "test": "npm run test --workspace backend && node --test frontend/src/utils/jwt.test.js frontend/src/utils/books.test.js frontend/src/utils/search.test.js && npm run test --workspace frontend",
     "test": "npm run test --workspace backend && node --test frontend/src/utils/jwt.test.js frontend/src/utils/books.test.js frontend/src/utils/bookForm.test.js",
     "bootstrap:admin": "npm run bootstrap:admin --workspace backend"
   }

@@ -7,10 +7,13 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Books from "./pages/Books.jsx";
 import BookDetail from "./pages/BookDetail.jsx";
+import AdminLoans from "./pages/AdminLoans.jsx";
+import MyLoans from "./pages/MyLoans.jsx";
 import BookNew from "./pages/BookNew.jsx";
 import BookEdit from "./pages/BookEdit.jsx";
 import "./styles/auth.css";
 import "./styles/catalog.css";
+import "./styles/loans.css";
 
 const AdminRoute = ({ children }) => {
     const { isAuthenticated, user } = useAuth();
@@ -74,6 +77,19 @@ const App = () => {
                         }
                     />
                     <Route
+                        path="/admin/loans"
+                        element={
+                            <ProtectedRoute role="Admin">
+                                <AdminLoans />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/my-loans"
+                        element={
+                            <ProtectedRoute>
+                                <MyLoans />
+                            </ProtectedRoute>
                         path="/admin/books/new"
                         element={
                             <AdminRoute>
