@@ -14,6 +14,10 @@ const Navbar = () => {
                 {isAuthenticated ? (
                     <>
                         <Link to="/books" className="site-header__link">Catalog</Link>
+                        {user?.role === "Admin" && (
+                            <Link to="/admin/loans" className="site-header__link">Loans</Link>
+                        )}
+                        <Link to="/my-loans" className="site-header__link">My loans</Link>
                         <span className="site-header__user" aria-label={`Signed in as ${user?.name}`}>
                             {user?.name}
                         </span>
