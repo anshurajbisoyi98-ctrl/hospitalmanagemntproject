@@ -31,11 +31,16 @@ const getBooks = async ({ q, category, signal, token, ...options } = {}) => {
 /**
  * Fetch single book details by ID.
  * @param {string} id
- * @param {{ signal?: AbortSignal }} [options]
+ * @param {{ signal?: AbortSignal, token?: string }} [options]
  * @returns {Promise<any>}
  */
-const getBookById = async (id, { signal, ...options } = {}) => {
-    const res = await request(`/books/${encodeURIComponent(id)}`, { signal, ...options });
+const getBookById = async (id, { signal, token, ...options } = {}) => {
+    const resolvedToken = token || getStoredToken();
+    const res = await request(`/books/${encodeURIComponent(id)}`, {
+        signal,
+        ...options,
+        ...(resolvedToken ? { token: resolvedToken } : {}),
+    });
     return res?.data ?? res;
 };
 
