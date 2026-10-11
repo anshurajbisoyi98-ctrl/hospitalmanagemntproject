@@ -3,6 +3,7 @@ const cors = require("cors");
 const healthRoutes = require("./routes/healthRoutes");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const bookRoutes = require("./routes/bookRoutes");
 const borrowingRoutes = require("./routes/borrowingRoutes");
 const errorHandler = require("./middleware/errorHandler");
 
@@ -18,6 +19,7 @@ const createApp = (config) => {
     app.use("/api/health", healthRoutes);
     app.use("/api/auth", authRoutes);
     app.use("/api/users", userRoutes);
+    app.use("/api/books", bookRoutes);
     app.use("/api/borrowings", borrowingRoutes);
 
     app.use((req, res) => {

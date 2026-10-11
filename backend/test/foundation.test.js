@@ -26,9 +26,9 @@ test("API reports unavailable database, missing routes, and malformed JSON safel
     assert.equal(health.status, 503);
     assert.equal(health.headers.get("access-control-allow-origin"), env.FRONTEND_URL);
     assert.deepEqual(await health.json(), { error: { message: "Database unavailable" } });
-    const missing = await fetch(`${url}/api/books`);
+    const missing = await fetch(`${url}/api/missing`);
     assert.equal(missing.status, 404);
-    const malformed = await fetch(`${url}/api/books`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{" });
+    const malformed = await fetch(`${url}/api/missing`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{" });
     assert.equal(malformed.status, 400);
     assert.deepEqual(await malformed.json(), { error: { message: "Invalid JSON body" } });
 });
