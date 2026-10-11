@@ -10,7 +10,7 @@ const User = require("../src/models/userModel");
 const Book = require("../src/models/bookModel");
 const Borrowing = require("../src/models/borrowingModel");
 
-const mongoUri = process.env.TEST_MONGO_URI;
+const mongoUri = process.env.API_TEST_MONGO_URI || process.env.TEST_MONGO_URI;
 const databaseName = (uri) => {
     try {
         const normalized = uri.replace(/^mongodb(?:\+srv)?:\/\//, "http://");

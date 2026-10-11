@@ -1,6 +1,6 @@
 # Integration and release verification
 
-Use an isolated MongoDB database whose name contains \`test\`. CI creates a MongoDB 7 replica set and sets \`TEST_MONGO_URI\`; the test suites refuse a non-test database. Never point these tests at production data.
+Use isolated MongoDB databases whose names contain \`test\`. CI creates a MongoDB 7 replica set and uses separate databases for the transactional borrowing suite, CRUD/auth API suite, and read-only health check. Test suites refuse a non-test database and clean only their own fixtures. Never point these tests at production data.
 
 Run from the repository root:
 
@@ -16,10 +16,10 @@ npm run build
 - \`backend/test/api.integration.test.js\`: real Mongo-backed registration/login, role escalation rejection, duplicate registration, Admin-only book creation, duplicate ISBN, search, detail read, inventory edits, and active-loan edit/delete protection.
 - \`backend/test/borrowing.integration.test.js\`: real Mongo-backed issue/return, last-copy contention, duplicate active-loan race, return race, rollback, and user ownership isolation. Requires a replica set for transactions.
 - \`backend/test/auth.test.js\`, \`bookRead.test.js\`, \`bookMutation.test.js\`, and \`bookSearch.test.js\`: focused HTTP/model behavior tests; dependencies are mocked for non-database cases.
-- \`frontend/src/test/SearchFilter.test.jsx\` and \`Books.integration.test.jsx\`: accessible search controls and catalog route/query, success, empty, and error rendering. Service calls are mocked in UI tests; the separate backend suites exercise the real API.
+- \`frontend/src/test/SearchFilter.test.jsx\` and \`Books.integration.test.jsx\`: accessible search controls and catalog route/query, success, empty, and error rendering. Service calls are mocked in UI tests; separate backend suites exercise the real API.
 - \`frontend/src/utils/*.test.js\`: session, search, book form, and loan utility behavior.
 
-The database suites use \`TEST_MONGO_URI\` and clean up only records created with unique test IDs. The read-only health integration test uses a configured \`MONGO_URI\` and performs no writes.
+The API and borrowing suites use distinct \`API_TEST_MONGO_URI\` and \`TEST_MONGO_URI\` databases. The read-only health integration test uses \`MONGO_URI\` and performs no writes.
 
 ## Remaining manual release checks
 
