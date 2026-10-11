@@ -1,7 +1,5 @@
 import { useCallback, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import BookCard from "../components/BookCard.jsx";
 import SearchFilter from "../components/SearchFilter.jsx";
 import StatusMessage from "../components/StatusMessage.jsx";
@@ -12,33 +10,18 @@ const Books = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const queryParam = (searchParams.get("q") || "").trim();
     const categoryParam = (searchParams.get("category") || "").trim();
-
-    const { token } = useAuth() || {};
-import { getBooks } from "../services/bookService.js";
-
-const Books = () => {
-    const { user } = useAuth();
+    const { token, user } = useAuth() || {};
     const location = useLocation();
     const isAdmin = user?.role === "Admin";
-
-    const [books, setBooks] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [reloadKey, setReloadKey] = useState(0);
 
     const handleParamsChange = useCallback(({ q, category }) => {
         setSearchParams((prev) => {
             const next = new URLSearchParams(prev);
-            if (q) {
-                next.set("q", q);
-            } else {
-                next.delete("q");
-            }
-            if (category) {
-                next.set("category", category);
-            } else {
-                next.delete("category");
-            }
+            if (q) next.set("q", q);
+            else next.delete("q");
+            if (category) next.set("category", category);
+            else next.delete("category");
             return next;
         }, { replace: true });
     }, [setSearchParams]);
@@ -64,11 +47,7 @@ const Books = () => {
         onParamsChange: handleParamsChange,
     });
 
-    const handleRetry = () => {
-        setReloadKey((prev) => prev + 1);
-    };
-
-    // Construct specific copy for states
+    const handleRetry = () => setReloadKey((prev) => prev + 1);
     const hasFilters = Boolean(activeQuery || selectedCategory);
     const emptyMessage = activeQuery && selectedCategory
         ? `No results for '${activeQuery}' in ${selectedCategory}.`
@@ -77,19 +56,12 @@ const Books = () => {
         : selectedCategory
         ? `No results in ${selectedCategory}.`
         : "No books in the catalog yet.";
-
     const errorMessage = activeQuery
         ? `Couldn't load results for '${activeQuery}'.`
         : (error?.message || "Unable to load books. Please check your connection and try again.");
-
     const loadingMessage = activeQuery
         ? `Loading results for '${activeQuery}'`
         : "Loading catalog…";
-        return () => {
-            isMounted = false;
-            controller.abort();
-        };
-    }, [reloadKey, location.key]);
 
     return (
         <section className="catalog-page" aria-labelledby="catalog-heading">
@@ -98,7 +70,6 @@ const Books = () => {
                     {location.state.notice}
                 </div>
             )}
-
             <header className="catalog-page__header">
                 <div className="catalog-page__header-row">
                     <div>
@@ -114,7 +85,6 @@ const Books = () => {
                     )}
                 </div>
             </header>
-
             <SearchFilter
                 searchInput={searchInput}
                 activeQuery={activeQuery}
@@ -128,13 +98,8 @@ const Books = () => {
                 onCategoryChange={handleCategoryChange}
                 onClearSearch={handleClearSearch}
             />
-
             {error ? (
-                <StatusMessage
-                    type="error"
-                    message={errorMessage}
-                    onRetry={handleRetry}
-                />
+                <StatusMessage type="error" message={errorMessage} onRetry={handleRetry} />
             ) : loading && books.length === 0 ? (
                 <StatusMessage type="loading" message={loadingMessage} />
             ) : books.length === 0 ? (
