@@ -7,7 +7,7 @@
     --accent: #2F4F3E;
     --accent-hover: #243D30;
     --error: #8C2F24;
-    --radius: 3px;
+    --radius: 6px;
 
     background-color: var(--paper);
     color: var(--ink);
@@ -451,4 +451,89 @@
     display: flex;
     justify-content: flex-end;
     gap: 0.75rem;
+}
+
+/* ─── UI polish ─────────────────────────────────────────────────────────── */
+/* Page container & surfaces: soft depth and larger corners. */
+.loans-page {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.loan-form-section,
+.loans-table-wrapper {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+}
+
+/* Buttons: depth on the primary action, small lift on hover, press on active. */
+.loan-button {
+    transition: background-color 0.16s var(--ease), border-color 0.16s var(--ease),
+        transform 0.16s var(--ease), box-shadow 0.16s var(--ease);
+}
+.loan-button--primary {
+    box-shadow: var(--shadow-sm);
+}
+.loan-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+.loan-button--primary:hover:not(:disabled) {
+    box-shadow: var(--shadow-md);
+}
+.loan-button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
+}
+.loan-button:disabled {
+    box-shadow: none;
+}
+
+/* Filter tabs: clearer hover affordance on the inactive tabs. */
+.loans-filter-btn {
+    transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease);
+}
+.loans-filter-btn:not(.loans-filter-btn--active):hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background-color: #F1F6F3;
+}
+
+/* Status badges: pill shape. */
+.loan-badge {
+    border-radius: 999px;
+    padding: 0.25rem 0.65rem;
+}
+
+/* Table rows: smooth hover tint. */
+.loans-table tr:hover td {
+    transition: background-color 0.12s var(--ease);
+}
+
+/* Confirmation dialog: real elevation and a gentle entrance. */
+.loan-dialog {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+.loan-dialog[open] {
+    animation: loan-dialog-in 0.18s var(--ease);
+}
+.loan-dialog::backdrop {
+    backdrop-filter: blur(2px);
+}
+@keyframes loan-dialog-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* On stacked mobile cards the wrapper is borderless — drop its shadow there. */
+@media (max-width: 800px) {
+    .loans-table-wrapper {
+        box-shadow: none;
+    }
 }

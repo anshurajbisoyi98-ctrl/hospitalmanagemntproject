@@ -7,7 +7,7 @@
     --accent: #2F4F3E;
     --accent-hover: #243D30;
     --error: #8C2F24;
-    --radius: 3px;
+    --radius: 6px;
 
     background-color: var(--paper);
     color: var(--ink);
@@ -732,3 +732,126 @@
     border: 0;
 }
 
+
+/* ─── UI polish ─────────────────────────────────────────────────────────── */
+/* Page container & card surfaces: soft depth and larger corners. */
+.catalog-page {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.book-card,
+.catalog-detail,
+.catalog-not-found,
+.catalog-search-filter,
+.catalog-status {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+}
+
+.book-card,
+.catalog-search-filter,
+.catalog-status {
+    transition: box-shadow 0.2s var(--ease), transform 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+/* Book card: hover lift, accent edge, and keyboard focus parity. */
+.book-card {
+    position: relative;
+    overflow: hidden;
+}
+.book-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s var(--ease);
+}
+.book-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
+}
+.book-card:hover::before {
+    opacity: 1;
+}
+.book-card:focus-within {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+}
+
+/* Buttons: depth on solid variants, a small lift on hover, press on active. */
+.catalog-btn {
+    transition: background-color 0.16s var(--ease), border-color 0.16s var(--ease),
+        transform 0.16s var(--ease), box-shadow 0.16s var(--ease);
+}
+.catalog-btn--primary,
+.catalog-btn--danger {
+    box-shadow: var(--shadow-sm);
+}
+.catalog-btn:hover {
+    transform: translateY(-1px);
+}
+.catalog-btn--primary:hover,
+.catalog-btn--danger:hover {
+    box-shadow: var(--shadow-md);
+}
+.catalog-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
+}
+.catalog-btn:disabled {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Availability badges: pill shape with a soft tint. */
+.catalog-badge {
+    border-radius: 999px;
+    padding: 0.3rem 0.7rem;
+}
+.catalog-badge--available {
+    background-color: rgba(47, 79, 62, 0.08);
+}
+.catalog-badge--unavailable {
+    background-color: rgba(140, 47, 36, 0.08);
+}
+
+/* Inputs: smooth border transition (focus outline handled above). */
+.catalog-search-filter__input,
+.catalog-search-filter__select,
+.book-form__input,
+.book-form__textarea {
+    transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+
+/* Notice banner: match the softer card language. */
+.catalog-notice {
+    box-shadow: var(--shadow-xs);
+}
+
+/* Confirmation dialog: real elevation and a gentle entrance. */
+.catalog-dialog {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+.catalog-dialog[open] {
+    animation: catalog-dialog-in 0.18s var(--ease);
+}
+.catalog-dialog::backdrop {
+    backdrop-filter: blur(2px);
+}
+@keyframes catalog-dialog-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
