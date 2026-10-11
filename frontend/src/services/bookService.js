@@ -13,11 +13,23 @@ const getStoredToken = () => {
 
 /**
  * Fetch list of books from the catalog.
- * @param {{ signal?: AbortSignal }} [options]
+ * Supports optional search query/category filters while remaining backward compatible.
+ * @param {{ q?: string, category?: string, signal?: AbortSignal, token?: string }} [options]
  * @returns {Promise<any>}
  */
-const getBooks = async ({ signal, ...options } = {}) => {
-    const res = await request("/books", { signal, ...options });
+const getBooks = async ({ q, category, signal, ...options } = {}) => {
+    const searchParams = new URLSearchParams();
+    if (typeof q === "string" && q.trim()) {
+        searchParams.set("q", q.trim());
+    }
+    if (typeof category === "string" && category.trim()) {
+        searchParams.set("category", category.trim());
+    }
+
+    const queryString = searchParams.toString();
+    const path = queryString ? `/books?${queryString}` : "/books";
+
+    const res = await request(path, { signal, ...options });
     return res?.data ?? res;
 };
 
