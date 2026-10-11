@@ -13,33 +13,18 @@ const getStoredToken = () => {
 };
 
 /**
- * Fetch list of books from the catalog.
- * Supports optional search query/category filters while remaining backward compatible.
- * @param {{ q?: string, category?: string, signal?: AbortSignal, token?: string }} [options]
- * @returns {Promise<any>}
- */
-const getBooks = async ({ q, category, signal, ...options } = {}) => {
-    const searchParams = new URLSearchParams();
-    if (typeof q === "string" && q.trim()) {
-        searchParams.set("q", q.trim());
-    }
-    if (typeof category === "string" && category.trim()) {
-        searchParams.set("category", category.trim());
-    }
-
-    const queryString = searchParams.toString();
-    const path = queryString ? `/books?${queryString}` : "/books";
-
-    const res = await request(path, { signal, ...options });
  * Fetch list of books from the catalog with optional search and category filters.
  * @param {{ q?: string, category?: string, signal?: AbortSignal, token?: string }} [options]
  * @returns {Promise<any>}
  */
-const getBooks = async ({ q, category, signal, token } = {}) => {
+const getBooks = async ({ q, category, signal, token, ...options } = {}) => {
     const qs = buildSearchQueryString({ q, category });
-    const res = await request(`/books${qs}`, { signal, token });
-const getBooks = async ({ signal, ...options } = {}) => {
-    const res = await request("/books", { signal, ...options });
+    const resolvedToken = token || getStoredToken();
+    const res = await request(`/books${qs}`, {
+        signal,
+        ...options,
+        ...(resolvedToken ? { token: resolvedToken } : {}),
+    });
     return res?.data ?? res;
 };
 
