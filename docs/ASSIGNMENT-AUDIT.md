@@ -73,3 +73,30 @@ The team lead requested four issues per member that can each become a meaningful
 ## Publication update
 
 The team lead authorized publishing to anshurajbisoyi98-ctrl/hospitalmanagemntproject. Sixteen issues were created and an empty main baseline established for PR review; the foundation is on feature/project-foundation. Four lead issues are assigned; the twelve contributor assignments await collaborator access. Prior statements of no remote resources describe the earlier audit state. Atlas connectivity was subsequently verified locally; feature integration and production deployments remain pending.
+
+
+## Verified repository status — 11 October 2026
+
+This status supersedes earlier planning snapshots in this file. The remote repository is \`anshurajbisoyi98-ctrl/hospitalmanagemntproject\`, with \`main\` as the default branch. It contains the four-person implementation and merged feature work. The pull-request CI check is passing for the current main baseline.
+
+### Contribution audit
+
+Count only merged, student-authored feature or foundation PRs. PR #31 was authored by Copilot and is excluded. PR #32 and #33 are open and are not counted until merged.
+
+| Member | GitHub | Merged PRs audited | Count / target |
+| --- | --- | --- | --- |
+| Anshu Raj Bisoyi (lead) | \`anshurajbisoyi98-ctrl\` | #17 foundation, #19 API integration tests | 2 / 4 |
+| Harsh Surana | \`Harshsurana-hub\` | #20 auth API, #21 auth middleware, #22 issue API, #24 return API | 4 / 4 |
+| Dhruv Tomar | \`dhruvtomar2006-debug\` | #26 catalog search UI, #27 book model/read API, #28 book mutations, #29 search API | 4 / 4 |
+| Kiran Sinha | \`KiranSinha872\` | #18 auth UI, #23 catalog/detail UI, #25 librarian forms, #30 borrowing UI | 4 / 4 |
+
+Anshu's two additional PRs (#32 test coverage and #33 deployment configuration) are pending review and must not be credited until they are merged. Roll numbers for all four members remain unknown and must be added by the team.
+
+### Remaining submission evidence
+
+- PR #32 adds Mongo-backed auth/catalog regression tests and catalog UI tests. CI passed on its latest head. It addresses issue #14; the issue remains open until the PR is merged.
+- PR #33 adds Vercel/Render configuration and deployment instructions. CI passed. No deployment or production URL has been verified, so issue #16 remains open.
+- Issue #15 still needs deployed Admin/User browser workflows, deep-link reloads, responsive checks, and current screenshots. Existing feature screenshots are stored under \`docs/screenshots/issue-7\`, \`issue-11\`, and \`issue-13\`; they are not evidence of the current deployed release.
+- The deployment URLs and provider-side Atlas/CORS checks remain pending. Keep credentials in provider environment settings and ignored local \`.env\` files only.
+
+The repository changes are reviewable, but the submission is not deployment-verified until the missing hosting details and fresh live evidence are recorded.
